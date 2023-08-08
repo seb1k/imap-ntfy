@@ -1,5 +1,3 @@
-# imap-ntfy
-Receive a ntfy.sh request on new email !
 
 
 Usage example :
