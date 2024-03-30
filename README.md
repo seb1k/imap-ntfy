@@ -8,4 +8,4 @@ Usage example :
 
 
 
-Origin script from : https://github.com/johan-adriaans/shell-imap-notify
+Inspired from : https://github.com/johan-adriaans/shell-imap-notify
