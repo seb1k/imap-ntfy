@@ -1,12 +1,6 @@
 #!/bin/bash
 
 
-start_script () {
-	#Start this script into pipe to hide user password + background + nohup (except user email)
-	echo "Start script"
-	echo "$1 $2 $3 $4" | (nohup $0 $1 &)
-}
-
 if [ -p /dev/stdin ]; then
         #echo "Data was piped to this script!"
         # If we want to read the input line by line
@@ -32,17 +26,21 @@ fi
 if [ ! "$user" ]; then
 
 	#Kill all previous process + child
-
 	killpid=$(ps -ef | grep -v grep | grep $0 | grep $1  | awk '{print $2}'| grep -v $$ | xargs)
+
+
+	#Start this script into pipe to hide user password + background + nohup (except user email)
+	#start_script $1 $2 $3 $4
+	echo "Start script"
+	echo "$1 $2 $3 $4" | (nohup $0 $1 &)
+
+	
 	if [ ! -z "$killpid" ]; then
 		echo Killing previous process $killpid
 		#pkill -e -P $killpid
 		pkill -e -P $(echo $killpid | tr -s ' ' ',')
 		kill $killpid
 	fi
-
-	
-	start_script $1 $2 $3 $4
 	
 	exit
 fi
