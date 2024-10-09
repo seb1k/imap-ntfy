@@ -1,4 +1,4 @@
-This script connects to an IMAP server and sends a notification with ntfy.sh
+This script connects to an IMAP server and sends a ntfy.sh for each new email.
 
 ![screenshot](example.png)
 
