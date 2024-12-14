@@ -164,6 +164,7 @@ do
 				
 
 		if [[ "$LASTUID" != "$PREVIOUSUID" ]];then
+  			echo ". uid FETCH $LASTUID (BODY.PEEK[HEADER.FIELDS (FROM SUBJECT)])" > /proc/$PIDopenssl/fd/0
 			#echo "> . uid FETCH $LASTUID (BODY.PEEK[HEADER.FIELDS (FROM SUBJECT)])"
 			SUBJECT=""
 
