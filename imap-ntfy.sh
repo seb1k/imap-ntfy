@@ -90,7 +90,7 @@ string=$(  echo $TEMP      | cut -d'?' -f 4 )
 
 # "iconv" must be after "base64 -d" else buggy with utf16 decoding
 [[ $encoding == "b" ]] && TEMP=$(echo $string | base64 -d | iconv -f $charset -t UTF-8)
-[[ $encoding == "q" ]] && TEMP=$(echo $string | perl -MMIME::QuotedPrint -pe '$_=MIME::QuotedPrint::decode($_);' | iconv -f $charset -t UTF-8)
+[[ $encoding == "q" ]] && TEMP=$(echo $string | sed "s/_/ /g" | perl -MMIME::QuotedPrint -pe '$_=MIME::QuotedPrint::decode($_);' | iconv -f $charset -t UTF-8)
 }
 
 send_ntfy_info()
