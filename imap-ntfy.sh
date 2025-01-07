@@ -70,27 +70,27 @@ start_idle () {
 
 clean_temp()
 {
-TEMP=$(echo $TEMP | xargs)
+TEMP=$(echo "$TEMP" | xargs)
 
 [[ ! $TEMP == "=?"* ]] && return
 
 # ntfy doesnt support some encoding, lets convert it
-TEMPlower=$(echo $TEMP | tr '[:upper:]' '[:lower:]')
+TEMPlower=$(echo "$TEMP" | tr '[:upper:]' '[:lower:]')
 
 # utf-8 is ok for ntfy
 [[ $TEMPlower == "=?utf-8?"* ]] && return
 
-charset=$( echo $TEMPlower | cut -d'?' -f 2 )
-encoding=$(echo $TEMPlower | cut -d'?' -f 3 )
-string=$(  echo $TEMP      | cut -d'?' -f 4 )
+charset=$( echo "$TEMPlower" | cut -d'?' -f 2 )
+encoding=$(echo "$TEMPlower" | cut -d'?' -f 3 )
+string=$(  echo "$TEMP"      | cut -d'?' -f 4 )
 
 
 
 [[ $charset == "utf-16" ]] && charset="UTF-16be"
 
 # "iconv" must be after "base64 -d" else buggy with utf16 decoding
-[[ $encoding == "b" ]] && TEMP=$(echo $string | base64 -d | iconv -f $charset -t UTF-8)
-[[ $encoding == "q" ]] && TEMP=$(echo $string | sed "s/_/ /g" | perl -MMIME::QuotedPrint -pe '$_=MIME::QuotedPrint::decode($_);' | iconv -f $charset -t UTF-8)
+[[ $encoding == "b" ]] && TEMP=$(echo "$string" | base64 -d | iconv -f $charset -t UTF-8)
+[[ $encoding == "q" ]] && TEMP=$(echo "$string" | tr _ ' ' | perl -MMIME::QuotedPrint -pe '$_=MIME::QuotedPrint::decode($_);' | iconv -f $charset -t UTF-8)
 }
 
 send_ntfy_info()
@@ -114,11 +114,11 @@ SENDER=$(echo $SENDERfull | cut -d "<" -f1 | xargs)
 
 TEMP=$SENDER
 clean_temp
-SENDER=$(echo $TEMP | sed $'s/\x1F/\'/g')
+SENDER=$(echo "$TEMP" | sed $'s/\x1F/\'/g')
 
 TEMP=$SUBJECT
 clean_temp
-SUBJECT=$(echo $TEMP | sed $'s/\x1F/\'/g')
+SUBJECT=$(echo "$TEMP" | sed $'s/\x1F/\'/g')
 
 
 echo curl -s -H "Tags: envelope" -H "Title:  $SENDER" -H "Click: https://test.site/alink" -H "m: $SUBJECT" -d "" $ntfy_topic
