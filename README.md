@@ -11,4 +11,11 @@ Usage  :
 
 
 
-Inspired from : https://github.com/johan-adriaans/shell-imap-notify
+
+You want it each time your server starts ?
+
+Add to crontab
+
+
+    @reboot /root/imap-ntfy.sh email@email.com xxxxxxxxxxx imap.domain.com:993 ntfy.sh/something
+
